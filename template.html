@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+        }
+        html,body{
+            padding: 20px 0;
+            width: 100vw;
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        #tablehead{
+            padding: 10px 0;
+            color: white;
+            background-color: midnightblue;
+        }
+        table{
+            width: 80%;
+            margin: 8vh auto;
+        }
+        tr:nth-child(odd) {
+            background-color: #e6e6fa
+        }
+    </style>
+    <title>Results</title>
+</head>
+<body>
+    <select>
+        <option value="roll">Roll no.</option>
+        <option value="perc">Percentage</option>
+    </select>
+    <section class="table">
+        <div id="container">
+        </div>
+    </section>
+    <script>
+        const dataarray = ARRAY_HERE;
+    </script>
+    <script>
+        const makeTable = (array) => {
+            const div = document.querySelector("#container")
+            let mytable = "<table><tr id='tablehead'><th>Roll no.</th><th>Name</th><th>Marks</th><th>Total</th></tr><tr>";
+
+            for (let i of array) {     
+                for (j in i) {
+                    if (j == 2) {
+                            mytable = mytable + (i[j].length != 0 ? `<td>${i[j].join("<br>")}</td>` : "<td>--</td>"); 
+                    } else {
+                        mytable += `<td>${i[j]}</td>`;
+                    }
+                }
+
+                mytable += "</tr>";
+            }
+
+            mytable += "</table>";
+            div.innerHTML = mytable;
+        }
+        const dropdown = document.querySelector("select")
+        dropdown.addEventListener("change",() => {
+            if(dropdown.value == "perc"){
+                dataarray.sort((a,b) => b[3] - a[3])
+            }else if(dropdown.value == "roll"){
+                dataarray.sort((a,b) => parseInt(a[0]) - parseInt(b[0]))
+            }
+            makeTable(dataarray)
+        })
+        makeTable(dataarray)
+    </script>
+</body>
+</html>
